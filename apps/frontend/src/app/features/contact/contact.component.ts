@@ -35,7 +35,7 @@ export class ContactComponent {
   readonly socials: SocialLink[] = [
     { label: 'GitHub', icon: 'code', url: 'https://github.com/profibehnazghods' },
     { label: 'LinkedIn', icon: 'person', url: 'https://www.linkedin.com' },
-    { label: 'Email', icon: 'mail', url: 'mailto:your.email@example.com' },
+    { label: 'Email', icon: 'mail', url: 'mailto:profi.behnazghods@gmail.com' },
   ];
 
   readonly form = this.fb.group({
