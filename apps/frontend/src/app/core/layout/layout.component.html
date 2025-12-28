@@ -1,0 +1,49 @@
+<mat-toolbar color="primary" class="toolbar">
+    <button
+      mat-icon-button
+      type="button"
+      aria-label="Toggle navigation"
+      *ngIf="(isMobile$ | async) === true"
+      (click)="drawer.toggle()"
+    >
+      <mat-icon>menu</mat-icon>
+    </button>
+  
+    <span class="brand">Portfolio</span>
+  
+    <span class="spacer"></span>
+  
+    <!-- Desktop top links -->
+    <ng-container *ngIf="(isMobile$ | async) === false">
+      <a mat-button routerLink="/home" routerLinkActive="active-link">Home</a>
+      <a mat-button routerLink="/projects" routerLinkActive="active-link">Projects</a>
+      <a mat-button routerLink="/about" routerLinkActive="active-link">About</a>
+      <a mat-button routerLink="/contact" routerLinkActive="active-link">Contact</a>
+    </ng-container>
+  </mat-toolbar>
+  
+  <mat-sidenav-container class="container">
+    <mat-sidenav
+      #drawer
+      [mode]="(isMobile$ | async) ? 'over' : 'side'"
+      [opened]="(isMobile$ | async) ? false : true"
+    >
+      <mat-nav-list>
+        <a
+          mat-list-item
+          *ngFor="let item of navItems"
+          [routerLink]="item.path"
+          routerLinkActive="active-item"
+          (click)="isMobile ? drawer.close() : null"
+          >
+          <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+          <span matListItemTitle>{{ item.label }}</span>
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
+  
+    <mat-sidenav-content class="content">
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  
