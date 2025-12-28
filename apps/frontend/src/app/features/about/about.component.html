@@ -1,1 +1,56 @@
-<p>about works!</p>
+<header class="header">
+    <h1 class="title">About</h1>
+    <p class="subtitle">
+      I build clean, responsive Angular applications with a strong focus on UI quality, maintainability, and team-ready code.
+    </p>
+  </header>
+  
+  <section class="grid">
+    <mat-card class="card">
+      <mat-card-title>Quick Facts</mat-card-title>
+      <mat-card-content>
+        <div class="facts">
+          <div class="fact" *ngFor="let f of quickFacts">
+            <mat-icon class="fact-icon">{{ f.icon }}</mat-icon>
+            <div class="fact-text">
+              <div class="fact-label">{{ f.label }}</div>
+              <div class="fact-value">{{ f.value }}</div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  
+    <mat-card class="card">
+      <mat-card-title>Strengths</mat-card-title>
+      <mat-card-content>
+        <mat-chip-set>
+          <mat-chip *ngFor="let s of strengths">{{ s }}</mat-chip>
+        </mat-chip-set>
+      </mat-card-content>
+    </mat-card>
+  </section>
+  
+  <mat-card class="timeline-card">
+    <mat-card-title>Timeline</mat-card-title>
+    <mat-card-content>
+      <div class="timeline">
+        <div class="item" *ngFor="let t of timeline">
+          <div class="dot"></div>
+          <div class="content">
+            <div class="row">
+              <div class="item-title">{{ t.title }}</div>
+              <div class="item-period">{{ t.period }}</div>
+            </div>
+  
+            <div class="item-desc">{{ t.description }}</div>
+  
+            <mat-chip-set *ngIf="t.tags?.length">
+              <mat-chip *ngFor="let tag of t.tags">{{ tag }}</mat-chip>
+            </mat-chip-set>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  

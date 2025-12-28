@@ -1,2 +1,41 @@
-<h1>Home</h1>
-<p>Welcome to my portfolio.</p>
+<section class="hero">
+    <div class="hero-text">
+      <h1 class="headline">Behnaz Ghods</h1>
+      <p class="subtitle">Frontend Developer — Angular • TypeScript • UI/UX</p>
+  
+      <div class="cta">
+        <a mat-raised-button color="primary" routerLink="/projects">
+          <mat-icon>work</mat-icon>
+          View Projects
+        </a>
+  
+        <a mat-stroked-button color="primary" routerLink="/contact">
+          <mat-icon>mail</mat-icon>
+          Contact Me
+        </a>
+      </div>
+  
+      <mat-card class="skills-card">
+        <mat-card-title>Skills</mat-card-title>
+        <mat-card-content>
+          <mat-chip-set>
+            <mat-chip *ngFor="let s of skills">{{ s }}</mat-chip>
+          </mat-chip-set>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  
+    <div class="hero-card">
+      <mat-card>
+        <mat-card-title>What I build</mat-card-title>
+        <mat-card-content>
+          <div class="grid">
+            <mat-card class="mini" *ngFor="let h of highlights">
+              <div class="mini-title">{{ h.title }}</div>
+              <div class="mini-desc">{{ h.desc }}</div>
+            </mat-card>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </section>  

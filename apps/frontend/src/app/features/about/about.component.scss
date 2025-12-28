@@ -1,0 +1,106 @@
+.header {
+    margin-bottom: 16px;
+  }
+  
+  .title {
+    margin: 0;
+    font-size: 34px;
+    line-height: 1.1;
+  }
+  
+  .subtitle {
+    margin: 8px 0 0 0;
+    opacity: 0.8;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .card {
+    height: 100%;
+  }
+  
+  .facts {
+    display: grid;
+    gap: 12px;
+    margin-top: 10px;
+  }
+  
+  .fact {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  
+  .fact-icon {
+    opacity: 0.9;
+  }
+  
+  .fact-label {
+    font-size: 12px;
+    opacity: 0.7;
+  }
+  
+  .fact-value {
+    font-weight: 600;
+  }
+  
+  .timeline-card {
+    margin-bottom: 24px;
+  }
+  
+  .timeline {
+    position: relative;
+    margin-top: 12px;
+  }
+  
+  .item {
+    display: grid;
+    grid-template-columns: 16px 1fr;
+    gap: 12px;
+    padding: 12px 0;
+  }
+  
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    margin-top: 6px;
+    background: currentColor;
+    opacity: 0.35;
+  }
+  
+  .row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  
+  .item-title {
+    font-weight: 700;
+  }
+  
+  .item-period {
+    opacity: 0.7;
+  }
+  
+  .item-desc {
+    margin: 6px 0 10px 0;
+    opacity: 0.9;
+  }
+  
+  @media (max-width: 900px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .title {
+      font-size: 28px;
+    }
+  }
+  

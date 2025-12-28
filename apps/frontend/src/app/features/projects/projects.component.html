@@ -1,1 +1,51 @@
-<p>projects works!</p>
+<header class="header">
+    <div>
+      <h1 class="title">Projects</h1>
+      <p class="subtitle">A selection of projects that highlight clean code, UI quality, and scalability.</p>
+    </div>
+  
+    <mat-form-field appearance="outline" class="filter">
+      <mat-label>Filter by tag</mat-label>
+      <mat-select [(value)]="selectedTag">
+        <mat-option *ngFor="let opt of tagOptions" [value]="opt.value">
+          {{ opt.label }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </header>
+  
+  <section class="grid">
+    <mat-card class="card" *ngFor="let p of filteredProjects; trackBy: trackByTitle">
+      <mat-card-header>
+        <mat-card-title>{{ p.title }}</mat-card-title>
+        <mat-card-subtitle>{{ p.description }}</mat-card-subtitle>
+      </mat-card-header>
+  
+      <mat-card-content>
+        <div class="tags">
+          <mat-chip-set>
+            <mat-chip *ngFor="let t of p.tags">{{ t }}</mat-chip>
+          </mat-chip-set>
+        </div>
+  
+        <ul class="highlights">
+          <li *ngFor="let h of p.highlights">{{ h }}</li>
+        </ul>
+      </mat-card-content>
+  
+      <mat-card-actions align="end" *ngIf="p.links?.length">
+        <a
+          *ngFor="let l of p.links"
+          mat-stroked-button
+          color="primary"
+          [href]="l.url"
+          target="_blank"
+          rel="noopener"
+        >
+          <mat-icon>open_in_new</mat-icon>
+          {{ l.label }}
+        </a>
+      </mat-card-actions>
+    </mat-card>
+  </section>
+  

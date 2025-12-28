@@ -1,1 +1,78 @@
-<p>contact works!</p>
+<header class="header">
+    <h1 class="title">Contact</h1>
+    <p class="subtitle">
+      Want to collaborate or have a question? Send a message — I’ll get back to you.
+    </p>
+  </header>
+  
+  <section class="grid">
+    <mat-card class="card">
+      <mat-card-title>Send a message</mat-card-title>
+      <mat-card-content>
+        <form class="form" [formGroup]="form" (ngSubmit)="submit()">
+          <mat-form-field appearance="outline">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" placeholder="Your name" />
+            <mat-error *ngIf="hasError('name', 'required')">Name is required.</mat-error>
+            <mat-error *ngIf="hasError('name', 'minlength')">Name is too short.</mat-error>
+          </mat-form-field>
+  
+          <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" placeholder="your@email.com" />
+            <mat-error *ngIf="hasError('email', 'required')">Email is required.</mat-error>
+            <mat-error *ngIf="hasError('email', 'email')">Invalid email address.</mat-error>
+          </mat-form-field>
+  
+          <mat-form-field appearance="outline">
+            <mat-label>Message</mat-label>
+            <textarea
+              matInput
+              rows="6"
+              formControlName="message"
+              placeholder="Tell me about your idea..."
+            ></textarea>
+            <mat-error *ngIf="hasError('message', 'required')">Message is required.</mat-error>
+            <mat-error *ngIf="hasError('message', 'minlength')">Message is too short.</mat-error>
+            <mat-error *ngIf="hasError('message', 'maxlength')">Message is too long.</mat-error>
+          </mat-form-field>
+  
+          <div class="actions">
+            <button mat-raised-button color="primary" type="submit">
+              <mat-icon>send</mat-icon>
+              Send
+            </button>
+  
+            <button mat-stroked-button type="button" (click)="form.reset()">
+              Reset
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  
+    <mat-card class="card">
+      <mat-card-title>Links</mat-card-title>
+      <mat-card-content>
+        <div class="links">
+          <a
+            class="link"
+            *ngFor="let s of socials"
+            [href]="s.url"
+            target="_blank"
+            rel="noopener"
+          >
+            <mat-icon>{{ s.icon }}</mat-icon>
+            <span>{{ s.label }}</span>
+            <mat-icon class="open">open_in_new</mat-icon>
+          </a>
+        </div>
+  
+        <div class="note">
+          <mat-icon>info</mat-icon>
+          <span>Tip: we can connect this form to the NestJS backend in the next phase.</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </section>
+  
