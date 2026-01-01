@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { ContactApiService } from '../../shared/api/contact-api.service';
 
 type SocialLink = {
   label: string;
@@ -33,7 +34,11 @@ type SocialLink = {
 })
 export class ContactComponent {
   readonly socials: SocialLink[] = [
-    { label: 'GitHub', icon: 'code', url: 'https://github.com/profibehnazghods' },
+    {
+      label: 'GitHub',
+      icon: 'code',
+      url: 'https://github.com/profibehnazghods',
+    },
     { label: 'LinkedIn', icon: 'person', url: 'https://www.linkedin.com' },
     { label: 'Email', icon: 'mail', url: 'mailto:profi.behnazghods@gmail.com' },
   ];
@@ -41,10 +46,21 @@ export class ContactComponent {
   readonly form = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(2)]],
     email: ['', [Validators.required, Validators.email]],
-    message: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]],
+    message: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(1000),
+      ],
+    ],
   });
 
-  constructor(private fb: FormBuilder, private snack: MatSnackBar) {}
+  constructor(
+    private fb: FormBuilder,
+    private snack: MatSnackBar,
+    private api: ContactApiService
+  ) {}
 
   submit(): void {
     if (this.form.invalid) {
@@ -53,9 +69,27 @@ export class ContactComponent {
       return;
     }
 
-    // For now: frontend-only demo. Later we will send to NestJS API.
-    this.snack.open('Message prepared! (API integration comes next)', 'OK', { duration: 2500 });
-    this.form.reset();
+    const raw = this.form.getRawValue();
+
+    const payload = {
+      name: (raw.name ?? '').trim(),
+      email: (raw.email ?? '').trim(),
+      message: (raw.message ?? '').trim(),
+    };
+
+    this.api.send(payload).subscribe({
+      next: () => {
+        this.snack.open('Message sent successfully ✅', 'OK', {
+          duration: 2500,
+        });
+        this.form.reset();
+      },
+      error: () => {
+        this.snack.open('Failed to send message. Please try again.', 'OK', {
+          duration: 2500,
+        });
+      },
+    });
   }
 
   hasError(controlName: 'name' | 'email' | 'message', error: string): boolean {
