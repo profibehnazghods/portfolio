@@ -1,24 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { CreateContactDto } from './dto/create-contact.dto';
-
-type StoredContact = CreateContactDto & { id: string; createdAt: string };
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class ContactService {
-  private readonly items: StoredContact[] = [];
+  constructor(private prisma: PrismaService) {}
 
-  create(dto: CreateContactDto): StoredContact {
-    const item: StoredContact = {
-      ...dto,
-      id: crypto.randomUUID(),
-      createdAt: new Date().toISOString(),
-    };
-
-    this.items.unshift(item);
-    return item;
+  create(dto: CreateContactDto) {
+    return this.prisma.contactMessage.create({
+      data: dto,
+    });
   }
 
-  findAll(): StoredContact[] {
-    return this.items;
+  findAll() {
+    return this.prisma.contactMessage.findMany({
+      orderBy: { createdAt: 'desc' },
+    });
   }
 }
