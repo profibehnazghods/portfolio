@@ -1,0 +1,96 @@
+<div class="page">
+    <div class="header">
+      <div class="title">
+        <h1>Inbox</h1>
+        <mat-chip-set>
+          <mat-chip>
+            <mat-icon>mail</mat-icon>
+            {{ filtered.length }} messages
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+  
+      <div class="actions">
+        <button mat-stroked-button (click)="load()" [disabled]="loading">
+          <mat-icon>refresh</mat-icon>
+          Refresh
+        </button>
+  
+        <button mat-flat-button color="primary" (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          Logout
+        </button>
+      </div>
+    </div>
+  
+    <mat-card class="toolbar" appearance="outlined">
+      <mat-form-field appearance="outline" class="search">
+        <mat-label>Search</mat-label>
+        <input matInput [(ngModel)]="search" (input)="applyFilter()" placeholder="name, email, message..." />
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </mat-card>
+  
+    <div class="state" *ngIf="loading">
+      <mat-progress-spinner diameter="34" mode="indeterminate"></mat-progress-spinner>
+      <p>Loading messages…</p>
+    </div>
+  
+    <div class="state error" *ngIf="!loading && error">
+      <mat-icon>error_outline</mat-icon>
+      <p>{{ error }}</p>
+    </div>
+  
+    <!-- Desktop Table -->
+    <mat-card class="tableCard" appearance="outlined" *ngIf="!loading && !error">
+      <table mat-table [dataSource]="filtered" class="table desktop">
+        <ng-container matColumnDef="createdAt">
+          <th mat-header-cell *matHeaderCellDef>Date</th>
+          <td mat-cell *matCellDef="let row">{{ row.createdAt | date:'short' }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef>Email</th>
+          <td mat-cell *matCellDef="let row">{{ row.email }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="message">
+          <th mat-header-cell *matHeaderCellDef>Message</th>
+          <td mat-cell *matCellDef="let row">
+            <span class="messageCell">{{ row.message }}</span>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+  
+      <div class="empty" *ngIf="filtered.length === 0">
+        <mat-icon>inbox</mat-icon>
+        <p>No messages found.</p>
+      </div>
+    </mat-card>
+  
+    <!-- Mobile Cards -->
+    <div class="mobileCards" *ngIf="!loading && !error && filtered.length > 0">
+      <mat-card class="msgCard" appearance="outlined" *ngFor="let m of filtered; trackBy: trackById">
+        <div class="row1">
+          <div class="who">
+            <strong>{{ m.name }}</strong>
+            <span class="email">{{ m.email }}</span>
+          </div>
+          <span class="date">{{ m.createdAt | date:'short' }}</span>
+        </div>
+  
+        <div class="row2">
+          <p class="msg">{{ m.message }}</p>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+  

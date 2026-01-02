@@ -1,0 +1,123 @@
+.page {
+    min-height: calc(100dvh - 64px);
+    display: grid;
+    place-items: center;
+    padding: 24px;
+  }
+  
+  .card {
+    width: 100%;
+    max-width: 520px;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+  }
+  
+  .brand {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    margin-bottom: 18px;
+  
+    .logo {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: rgba(102, 0, 204, 0.08);
+  
+      mat-icon {
+        font-size: 24px;
+        width: 24px;
+        height: 24px;
+      }
+    }
+  
+    .titles {
+      h1 {
+        margin: 0;
+        font-size: 20px;
+        line-height: 1.2;
+        font-weight: 700;
+        letter-spacing: -0.2px;
+      }
+  
+      p {
+        margin: 4px 0 0;
+        opacity: 0.7;
+        font-size: 13px;
+      }
+    }
+  }
+  
+  .form {
+    display: grid;
+    gap: 14px;
+  }
+  
+  .full {
+    width: 100%;
+  }
+  
+  .error {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 12px 12px;
+    border-radius: 12px;
+    background: rgba(244, 67, 54, 0.08);
+  
+    mat-icon {
+      opacity: 0.9;
+    }
+  
+    span {
+      font-size: 13px;
+      line-height: 1.35;
+    }
+  }
+  
+  .submit {
+    height: 46px;
+    border-radius: 12px;
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+  
+    mat-progress-spinner {
+      display: inline-block;
+    }
+  }
+  
+  .hint {
+    margin-top: 2px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.65;
+  
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+  
+    span {
+      font-size: 12px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .page {
+      padding: 14px;
+    }
+  
+    .card {
+      padding: 16px;
+      border-radius: 18px;
+    }
+  }
+  
