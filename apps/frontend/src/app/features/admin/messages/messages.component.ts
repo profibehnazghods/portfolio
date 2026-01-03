@@ -1,7 +1,6 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-
 
 // Material
 import { MatCardModule } from '@angular/material/card';
@@ -13,9 +12,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatChipsModule } from '@angular/material/chips';
 import { FormsModule } from '@angular/forms';
-import { HttpErrorResponse } from '@angular/common/http';
-import { AdminApiService, ContactMessage } from '../../../shared/api/admin-api.service';
 
+import { HttpErrorResponse } from '@angular/common/http';
+import { finalize } from 'rxjs/operators';
+import { AdminApiService, ContactMessage } from '../../../shared/api/admin-api.service';
 
 @Component({
   selector: 'app-admin-messages',
@@ -40,6 +40,7 @@ import { AdminApiService, ContactMessage } from '../../../shared/api/admin-api.s
 export class MessagesComponent {
   private readonly api = inject(AdminApiService);
   private readonly router = inject(Router);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   loading = false;
   error: string | null = null;
@@ -58,28 +59,38 @@ export class MessagesComponent {
   load(): void {
     this.loading = true;
     this.error = null;
+    this.cdr.markForCheck(); 
 
-    this.api.getMessages().subscribe({
-      next: (res) => {
-        // جدیدترین بالا
-        this.all = [...res].sort((a, b) =>
-          a.createdAt < b.createdAt ? 1 : -1
-        );
-        this.applyFilter();
-        this.loading = false;
-      },
-      error: (err: unknown) => {
-        const httpErr = err as HttpErrorResponse;
-        const msg = (httpErr.error as any)?.message;
-        this.error = Array.isArray(msg) ? msg[0] : (msg ?? 'Failed to load messages');
-      },
-    });
+    this.api
+      .getMessages()
+      .pipe(
+        finalize(() => {
+          this.loading = false;
+
+          this.cdr.markForCheck();
+        })
+      )
+      .subscribe({
+        next: (res: ContactMessage[]) => {
+          this.all = [...(res ?? [])].sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
+          this.applyFilter();
+          this.cdr.markForCheck();
+        },
+        error: (err: unknown) => {
+          const httpErr = err as HttpErrorResponse;
+
+          const msg = (httpErr.error as any)?.message;
+          this.error = Array.isArray(msg) ? msg[0] : (msg ?? 'Failed to load messages');
+
+          this.cdr.markForCheck();
+        },
+      });
   }
 
   applyFilter(): void {
     const q = this.search.trim().toLowerCase();
     if (!q) {
-      this.filtered = this.all;
+      this.filtered = [...this.all];
       return;
     }
 
