@@ -39,7 +39,7 @@ export class ContactComponent {
       icon: 'code',
       url: 'https://github.com/profibehnazghods',
     },
-    { label: 'LinkedIn', icon: 'person', url: 'https://www.linkedin.com' },
+    { label: 'LinkedIn', icon: 'person', url: 'https://www.linkedin.com/in/behnaz-ghods93' },
     { label: 'Email', icon: 'mail', url: 'mailto:profi.behnazghods@gmail.com' },
   ];
 

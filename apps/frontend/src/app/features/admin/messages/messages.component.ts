@@ -1,4 +1,9 @@
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef, inject } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
@@ -15,7 +20,10 @@ import { FormsModule } from '@angular/forms';
 
 import { HttpErrorResponse } from '@angular/common/http';
 import { finalize } from 'rxjs/operators';
-import { AdminApiService, ContactMessage } from '../../../shared/api/admin-api.service';
+import {
+  AdminApiService,
+  ContactMessage,
+} from '../../../shared/api/admin-api.service';
 
 @Component({
   selector: 'app-admin-messages',
@@ -59,7 +67,7 @@ export class MessagesComponent {
   load(): void {
     this.loading = true;
     this.error = null;
-    this.cdr.markForCheck(); 
+    this.cdr.markForCheck();
 
     this.api
       .getMessages()
@@ -72,7 +80,9 @@ export class MessagesComponent {
       )
       .subscribe({
         next: (res: ContactMessage[]) => {
-          this.all = [...(res ?? [])].sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
+          this.all = [...(res ?? [])].sort((a, b) =>
+            a.createdAt < b.createdAt ? 1 : -1
+          );
           this.applyFilter();
           this.cdr.markForCheck();
         },
@@ -80,7 +90,9 @@ export class MessagesComponent {
           const httpErr = err as HttpErrorResponse;
 
           const msg = (httpErr.error as any)?.message;
-          this.error = Array.isArray(msg) ? msg[0] : (msg ?? 'Failed to load messages');
+          this.error = Array.isArray(msg)
+            ? msg[0]
+            : msg ?? 'Failed to load messages';
 
           this.cdr.markForCheck();
         },
@@ -89,18 +101,21 @@ export class MessagesComponent {
 
   applyFilter(): void {
     const q = this.search.trim().toLowerCase();
+
     if (!q) {
       this.filtered = [...this.all];
+      this.cdr.markForCheck();
       return;
     }
 
-    this.filtered = this.all.filter((m) => {
-      return (
+    this.filtered = this.all.filter(
+      (m) =>
         m.name.toLowerCase().includes(q) ||
         m.email.toLowerCase().includes(q) ||
         m.message.toLowerCase().includes(q)
-      );
-    });
+    );
+
+    this.cdr.markForCheck();
   }
 
   logout(): void {
