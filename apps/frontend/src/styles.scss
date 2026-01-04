@@ -1,7 +1,270 @@
-/* You can add global styles to this file, and also import other style files */
+/* ============================================================
+   Global styles + Design Tokens (CSS Variables) + Material Fixes
+   ============================================================ */
 
+/* -----------------------------
+   1) Design Tokens
+-------------------------------- */
 :root {
   --container-max: 1100px;
+
+  /* Dark palette (base) */
+  --app-bg: #0b1220;
+  --app-surface: #111a2e;
+  --app-surface-2: #16213a;
+  --app-text: #e8eefc;
+  --app-text-muted: rgba(232, 238, 252, 0.72);
+  --app-border: rgba(232, 238, 252, 0.10);
+
+  --app-primary: #7c5cff;
+  --app-primary-contrast: #ffffff;
+
+  --app-radius: 16px;
+  --app-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+
+  --app-transition: 180ms ease;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Default = Light */
+html {
+  color-scheme: light;
+}
+
+/* Light theme values */
+html:not(.theme-dark) {
+  --app-bg: #f6f7fb;
+  --app-surface: #ffffff;
+  --app-surface-2: #f0f2f8;
+  --app-text: #0f172a;
+  --app-text-muted: rgba(15, 23, 42, 0.70);
+  --app-border: rgba(15, 23, 42, 0.10);
+
+  --app-primary: #5b5cff;
+  --app-primary-contrast: #ffffff;
+
+  --app-shadow: 0 10px 24px rgba(15, 23, 42, 0.10);
+}
+
+/* Dark theme switch */
+html.theme-dark {
+  color-scheme: dark;
+}
+
+/* -----------------------------
+   2) Base App Styling
+-------------------------------- */
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background: var(--app-bg);
+  color: var(--app-text);
+  transition: background var(--app-transition), color var(--app-transition);
+}
+
+/* Generic links */
+a {
+  color: var(--app-text);
+  text-decoration: none;
+}
+a:hover {
+  opacity: 0.9;
+}
+
+/* Utilities */
+.text-muted {
+  color: var(--app-text-muted) !important;
+}
+
+/* -----------------------------
+   3) Material Containers follow tokens
+-------------------------------- */
+.mat-mdc-sidenav-container,
+.mat-mdc-sidenav-content,
+.mat-drawer-container,
+.mat-drawer-content {
+  background: var(--app-bg) !important;
+  color: var(--app-text) !important;
+}
+
+/* -----------------------------
+   4) Material overrides (tokenize components + fix contrast)
+-------------------------------- */
+
+/* Buttons:
+   - Text / Outlined / Icon should use app-text
+   - Contained Primary should use app-primary-contrast */
+.mat-mdc-button,
+.mat-mdc-outlined-button,
+.mat-mdc-icon-button {
+  color: var(--app-text) !important;
+  opacity: 1 !important;
+}
+
+/* Primary contained buttons (mat-raised / mat-flat / mat-unelevated) */
+.mat-mdc-raised-button.mat-primary,
+.mat-mdc-unelevated-button.mat-primary {
+  color: var(--app-primary-contrast) !important;
+}
+
+/* Ensure labels inherit correctly */
+.mat-mdc-button .mdc-button__label,
+.mat-mdc-outlined-button .mdc-button__label,
+.mat-mdc-raised-button .mdc-button__label,
+.mat-mdc-unelevated-button .mdc-button__label {
+  color: inherit !important;
+}
+
+/* ✅ Fix: icons inside ANY button should follow the button text color */
+.mat-mdc-button mat-icon,
+.mat-mdc-outlined-button mat-icon,
+.mat-mdc-icon-button mat-icon,
+.mat-mdc-raised-button mat-icon,
+.mat-mdc-unelevated-button mat-icon {
+  color: inherit !important;
+}
+
+/* Icons in general */
+.mat-icon {
+  color: var(--app-text) !important;
+  opacity: 1 !important;
+}
+
+/* Sidenav / list items */
+.mat-mdc-nav-list .mat-mdc-list-item,
+.mat-mdc-list-item {
+  color: var(--app-text) !important;
+  opacity: 1 !important;
+}
+.mat-mdc-list-item .mdc-list-item__primary-text {
+  color: var(--app-text) !important;
+  opacity: 1 !important;
+}
+
+/* Cards */
+mat-card,
+.mat-mdc-card {
+  background: var(--app-surface) !important;
+  color: var(--app-text) !important;
+  border: 1px solid var(--app-border);
+  border-radius: var(--app-radius);
+  box-shadow: var(--app-shadow);
+  transition:
+    background var(--app-transition),
+    color var(--app-transition),
+    border-color var(--app-transition);
+}
+mat-card-title,
+.mat-mdc-card-title,
+mat-card-content,
+.mat-mdc-card-content {
+  color: var(--app-text) !important;
+}
+
+/* -----------------------------
+   5) Chips / Tags (Fix faded text in light mode)
+-------------------------------- */
+.mat-mdc-chip {
+  background: var(--app-surface-2) !important;
+  color: var(--app-text) !important;
+  border: 1px solid var(--app-border);
+  opacity: 1 !important;
+}
+
+/* ✅ MDC chip text label (this is the real culprit for faded tags) */
+.mat-mdc-chip .mdc-evolution-chip__text-label {
+  color: var(--app-text) !important;
+  opacity: 1 !important;
+}
+
+/* chip icons (if any) */
+.mat-mdc-chip mat-icon {
+  color: var(--app-text) !important;
+  opacity: 1 !important;
+}
+
+/* -----------------------------
+   6) Form Fields / Select (Fix filter colors)
+-------------------------------- */
+
+/* Text field container */
+.mat-mdc-form-field .mdc-text-field {
+  background: var(--app-surface) !important;
+  color: var(--app-text) !important;
+}
+
+/* Input/select text */
+.mat-mdc-form-field input,
+.mat-mdc-form-field textarea,
+.mat-mdc-select-value,
+.mat-mdc-select-min-line {
+  color: var(--app-text) !important;
+  opacity: 1 !important;
+}
+
+/* Placeholder */
+.mat-mdc-form-field input::placeholder,
+.mat-mdc-form-field textarea::placeholder {
+  color: var(--app-text-muted) !important;
+  opacity: 1 !important;
+}
+
+/* Floating label / subscript */
+.mat-mdc-form-field .mdc-floating-label,
+.mat-mdc-form-field .mat-mdc-form-field-hint,
+.mat-mdc-form-field .mat-mdc-form-field-error {
+  color: var(--app-text-muted) !important;
+  opacity: 1 !important;
+}
+
+/* Outline border */
+.mat-mdc-form-field .mdc-notched-outline__leading,
+.mat-mdc-form-field .mdc-notched-outline__notch,
+.mat-mdc-form-field .mdc-notched-outline__trailing {
+  border-color: var(--app-border) !important;
+}
+
+/* Focused border */
+.mat-mdc-form-field.mat-focused .mdc-notched-outline__leading,
+.mat-mdc-form-field.mat-focused .mdc-notched-outline__notch,
+.mat-mdc-form-field.mat-focused .mdc-notched-outline__trailing {
+  border-color: rgba(91, 92, 255, 0.55) !important;
+}
+
+/* Select arrow */
+.mat-mdc-select-arrow {
+  color: var(--app-text) !important;
+  opacity: 1 !important;
+}
+
+/* Dropdown panel */
+.mat-mdc-select-panel {
+  background: var(--app-surface) !important;
+  color: var(--app-text) !important;
+  border: 1px solid var(--app-border);
+}
+
+/* Options */
+.mat-mdc-option {
+  color: var(--app-text) !important;
+}
+.mat-mdc-option.mdc-list-item--selected,
+.mat-mdc-option.mat-mdc-option-active {
+  background: rgba(91, 92, 255, 0.12) !important;
+}
+
+/* -----------------------------
+   7) Menu (if used by select)
+-------------------------------- */
+.mat-mdc-menu-panel {
+  background: var(--app-surface) !important;
+  color: var(--app-text) !important;
+  border: 1px solid var(--app-border);
+}
+.mat-mdc-menu-item {
+  color: var(--app-text) !important;
+}

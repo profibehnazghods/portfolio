@@ -1,33 +1,57 @@
 .container {
-    height: calc(100vh - 64px);
-  }
-  
-  .toolbar {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-  }
-  
-  .brand {
-    font-weight: 600;
-  }
-  
-  .spacer {
-    flex: 1 1 auto;
-  }
-  
-  .content {
-    padding: 16px;
-  }
-  
-  .active-link,
-  .active-item {
-    font-weight: 600;
-  }
+  height: calc(100vh - 64px);
+}
 
-  .page {
-    max-width: var(--container-max);
-    margin: 0 auto;
-    width: 100%;
-  }  
-  
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  background: var(--app-surface) !important;
+  color: var(--app-text) !important;
+  border-bottom: 1px solid var(--app-border);
+}
+
+/* لینک‌های بالا (Home/Projects/...) */
+.toolbar a[mat-button] {
+  color: var(--app-text) !important;
+  opacity: 1 !important;
+}
+
+/* آیکن‌های toolbar مثل moon/sun */
+.toolbar mat-icon {
+  color: var(--app-text) !important;
+  opacity: 1 !important;
+}
+.brand {
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.content {
+  padding: 16px;
+  background: var(--app-bg);
+}
+
+.page {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Active states */
+.active-link,
+.active-item {
+  font-weight: 700;
+}
+
+/* Make sidenav look more modern */
+mat-sidenav {
+  background: var(--app-surface) !important;
+  color: var(--app-text) !important;
+  border-right: 1px solid var(--app-border);
+}

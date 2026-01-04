@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { FooterComponent } from '../../shared/components/footer/footer.component';
+import { ThemeService } from '../theme/theme.service';
 
 type NavItem = {
   label: string;
@@ -56,12 +57,28 @@ export class LayoutComponent implements OnDestroy {
     { label: 'About', path: '/about', icon: 'person' },
     { label: 'Contact', path: '/contact', icon: 'mail' },
   ];
+  private readonly theme = inject(ThemeService);
 
+  /** Plain boolean for template icon switching (pipes are NOT allowed in actions). */
+  isDark = false;
+  
+  toggleTheme(): void {
+    this.theme.toggle();
+  }
+  
   constructor() {
+    // init theme once
+    this.theme.init();
+  
+    this.theme.isDark$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((val) => (this.isDark = val));
+  
     this.isMobile$
       .pipe(takeUntil(this.destroy$))
       .subscribe((val) => (this.isMobile = val));
   }
+  
 
   ngOnDestroy(): void {
     this.destroy$.next();
